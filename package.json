@@ -8,7 +8,7 @@
     "docs:serve": "vitepress serve docs"
   },
   "repository": "https://github.com/kzltt/daily-kazakh-conversation",
-  "author": "Herbert <herbert.he0229@gmail.com>",
+  "author": "Herbert He<herbert.he0229@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "less": "^4.1.3",
