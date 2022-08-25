@@ -7,7 +7,7 @@ editLink: true
 
 ## 项目简介
 
-《日常哈萨克语会话》项目是由 [学哈语的小迟同学]() 和 [Herbert He](https://github.com/HerbertHe) 共同发起 **《哈萨克语“熬鹰”三部曲》** 的重要组成部分，以B站视频和笔记相结合的方式让大家了解哈萨克语、喜欢哈萨克语和愿意去使用哈萨克语。
+《日常哈萨克语会话》项目是由 [学哈语的小迟同学](https://space.bilibili.com/431339250) 和 [Herbert He](https://github.com/HerbertHe) 共同发起 **《哈萨克语“熬鹰”三部曲》** 的重要组成部分，以B站视频和笔记相结合的方式让大家了解哈萨克语、喜欢哈萨克语和愿意去使用哈萨克语。
 
 ## 项目驱动
 
@@ -15,8 +15,8 @@ editLink: true
 
 其中：
 
-- [学哈语的小迟同学 @ KzLTT]() 提供教程内容、内容审核。
-- [Herbert He @ Hapin]() 提供以哈拼为代表的底层技术驱动。
+- [学哈语的小迟同学 @ KzLTT](https://space.bilibili.com/431339250) 提供教程内容、内容审核。
+- [Herbert He @ Hapin](https://github.com/HerbertHe) 提供以哈拼为代表的底层技术驱动。
 
 ## 许可信息
 
