@@ -16,6 +16,7 @@ const langs = ref<["cyrillic" | "arabic" | "hapin", string][]>([
 	["hapin", "哈拼"],
 ])
 
+// TODO 本地存储用户的第一选择，Vue Use
 const lang: Ref<"cyrillic" | "arabic" | "hapin"> = ref("cyrillic")
 const showContent: Ref<string> = ref(props.cyrillic)
 
@@ -33,6 +34,7 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 </script>
 
 <style lang="less">
+// 注册字体
 .hapin-box {
 	margin: 20px 0;
 	display: flex;
@@ -87,11 +89,14 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 
 	.rtl {
 		direction: rtl;
+		font-size: larger;
+		font-weight: 400;
+		font-family: "Scheherazade New", Arial, Helvetica, sans-serif;
 	}
 
 	.intro {
 		padding: 10px 20px;
-		font-size: small;
+		font-size: x-small;
 		font-weight: 300;
 		align-self: flex-end;
 		user-select: none;
