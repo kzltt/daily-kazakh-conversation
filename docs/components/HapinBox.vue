@@ -16,13 +16,11 @@ const langs = ref<["cyrillic" | "arabic" | "hapin", string][]>([
 	["hapin", "哈拼"],
 ])
 
-// TODO 本地存储用户的第一选择，Vue Use
+const preferLang = localStorage.getItem("prefer-lang")
 const lang: Ref<"cyrillic" | "arabic" | "hapin"> = ref("cyrillic")
 const showContent: Ref<string> = ref(props.cyrillic)
 
-function changeLang(la: "cyrillic" | "arabic" | "hapin") {
-	lang.value = la
-	// 设置 值
+function displayContent(la: "cyrillic" | "arabic" | "hapin") {
 	if (la === "cyrillic") {
 		showContent.value = props.cyrillic
 	} else if (la === "arabic") {
@@ -30,6 +28,17 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 	} else {
 		showContent.value = !!props.hapin ? props.hapin : transformCyrillicToHapin(props.cyrillic)
 	}
+}
+
+if (!!preferLang) {
+	lang.value = preferLang as "cyrillic" | "arabic" | "hapin"
+	displayContent(preferLang as "cyrillic" | "arabic" | "hapin")
+}
+
+function changeLang(la: "cyrillic" | "arabic" | "hapin") {
+	lang.value = la
+	localStorage.setItem("prefer-lang", la)
+	displayContent(la)
 }
 </script>
 
