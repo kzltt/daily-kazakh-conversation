@@ -18,15 +18,24 @@ const langs = ref<["cyrillic" | "arabic" | "hapin", string][]>([
 
 const preferLang = localStorage.getItem("prefer-lang")
 const lang: Ref<"cyrillic" | "arabic" | "hapin"> = ref("cyrillic")
-const showContent: Ref<string> = ref(props.cyrillic)
+const showContent: Ref<string> = ref(renormal(props.cyrillic))
+
+function renormal(t: string, fn?: (o: string) => string) {
+	if (fn === undefined) {
+		return t.replace(/\\n/g, "<br>")
+	} else {
+		return t.split(/\\n/g).map(x => fn.call(null, x)).join("<br>")
+	}
+}
 
 function displayContent(la: "cyrillic" | "arabic" | "hapin") {
+	const { cyrillic, arabic, hapin } = props
 	if (la === "cyrillic") {
-		showContent.value = props.cyrillic
+		showContent.value = renormal(cyrillic)
 	} else if (la === "arabic") {
-		showContent.value = !!props.arabic ? props.arabic : transformCyrillicToArabic(props.cyrillic)
+		showContent.value = !!arabic ? renormal(arabic) : renormal(cyrillic, transformCyrillicToArabic)
 	} else {
-		showContent.value = !!props.hapin ? props.hapin : transformCyrillicToHapin(props.cyrillic)
+		showContent.value = !!hapin ? renormal(hapin) : renormal(cyrillic, transformCyrillicToHapin)
 	}
 }
 
@@ -43,7 +52,6 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 </script>
 
 <style lang="less">
-// 注册字体
 .hapin-box {
 	margin: 20px 0;
 	display: flex;
@@ -94,6 +102,7 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 		padding: 10px 20px;
 		color: white;
 		background-color: rgba(0, 0, 0, 0.7);
+		border-radius: 5px;
 	}
 
 	.rtl {
@@ -122,9 +131,7 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 			</li>
 		</ul>
 
-		<div :class="lang === 'arabic' ? 'show rtl' : 'show'">
-			{{ showContent }}
-		</div>
+		<div :class="lang === 'arabic' ? 'show rtl' : 'show'" :innerHTML="showContent"></div>
 
 		<div class="intro">
 			本组件由哈拼开源项目提供技术支持
