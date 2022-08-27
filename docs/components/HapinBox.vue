@@ -24,7 +24,13 @@ function renormal(t: string, fn?: (o: string) => string) {
 	if (fn === undefined) {
 		return t.replace(/\\n/g, "<br>")
 	} else {
-		return t.split(/\\n/g).map(x => fn.call(null, x)).join("<br>")
+		return t.split(/\\n/g).map(x => {
+			if (!!x) {
+				return fn.call(null, x)
+			} else {
+				return ""
+			}
+		}).join("<br>")
 	}
 }
 
