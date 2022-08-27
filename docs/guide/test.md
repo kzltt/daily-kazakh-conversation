@@ -8,6 +8,8 @@ title: 技术测试
 
 <HapinBox cyrillic="болады" />
 
+行内哈拼盒子测试 <HapinBoxInline cyrillic="болады" />
+
 - 列表测试
 - 列表测试
 - 列表测试
