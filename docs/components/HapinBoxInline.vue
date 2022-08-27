@@ -64,7 +64,7 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 				height: 6px;
 				border-radius: 3px;
 				display: block;
-				background-color: #0a0e0e;
+				background-color: #8c8c8c;
 			}
 
 			&>span[class="active"] {
