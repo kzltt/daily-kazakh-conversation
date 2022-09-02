@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { ref } from "vue"
 import type { Ref } from "vue"
+import type { langType } from "./types"
 
-import { transformCyrillicToArabic, transformCyrillicToHapin } from "hapin-utils"
+import { transformCyrillicToArabic, transformCyrillicToHapin, transformCyrillicToIPA_CNA } from "hapin-utils"
 
 const props = defineProps<{
 	cyrillic: string,
@@ -10,14 +11,15 @@ const props = defineProps<{
 	hapin?: string
 }>()
 
-const langs = ref<["cyrillic" | "arabic" | "hapin", string][]>([
+const langs = ref<[langType, string][]>([
 	["cyrillic", "西里尔文字"],
 	["arabic", "老文字"],
 	["hapin", "哈拼"],
+	["ipa-cna", "国际音标（国内学术版）"]
 ])
 
 const preferLang = localStorage.getItem("prefer-lang")
-const lang: Ref<"cyrillic" | "arabic" | "hapin"> = ref("cyrillic")
+const lang: Ref<langType> = ref("cyrillic")
 const showContent: Ref<string> = ref(renormal(props.cyrillic))
 
 function renormal(t: string, fn?: (o: string) => string) {
@@ -34,25 +36,32 @@ function renormal(t: string, fn?: (o: string) => string) {
 	}
 }
 
-function displayContent(la: "cyrillic" | "arabic" | "hapin") {
+function displayContent(la: langType) {
 	const { cyrillic, arabic, hapin } = props
 	if (la === "cyrillic") {
 		showContent.value = renormal(cyrillic)
+		return
 	} else if (la === "arabic") {
 		showContent.value = !!arabic ? renormal(arabic) : renormal(cyrillic, transformCyrillicToArabic)
-	} else {
+		return
+	} else if (la === 'hapin') {
 		showContent.value = !!hapin ? renormal(hapin) : renormal(cyrillic, transformCyrillicToHapin)
+		return
+	} else {
+		showContent.value = renormal(cyrillic, transformCyrillicToIPA_CNA)
 	}
 }
 
 if (!!preferLang) {
-	lang.value = preferLang as "cyrillic" | "arabic" | "hapin"
-	displayContent(preferLang as "cyrillic" | "arabic" | "hapin")
+	lang.value = preferLang as langType
+	displayContent(preferLang as langType)
 }
 
-function changeLang(la: "cyrillic" | "arabic" | "hapin") {
+function changeLang(la: langType) {
 	lang.value = la
-	localStorage.setItem("prefer-lang", la)
+	if (la !== "ipa-cna") {
+		localStorage.setItem("prefer-lang", la)
+	}
 	displayContent(la)
 }
 </script>
@@ -78,6 +87,7 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 		justify-content: flex-start;
 		align-items: center;
 		user-select: none;
+		flex-wrap: wrap;
 
 		li {
 			margin: 0 5px;

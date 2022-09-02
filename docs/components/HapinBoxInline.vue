@@ -3,6 +3,7 @@ import { ref } from "vue"
 import type { Ref } from "vue"
 
 import { transformCyrillicToArabic, transformCyrillicToHapin } from "hapin-utils"
+import { langType } from "./types";
 
 const props = defineProps<{
 	cyrillic: string,
@@ -10,17 +11,17 @@ const props = defineProps<{
 	hapin?: string
 }>()
 
-const langs = ref<["cyrillic" | "arabic" | "hapin", string][]>([
+const langs = ref<[langType, string][]>([
 	["cyrillic", "西里尔文字"],
 	["arabic", "老文字"],
 	["hapin", "哈拼"],
 ])
 
 const preferLang = localStorage.getItem("prefer-lang")
-const lang: Ref<"cyrillic" | "arabic" | "hapin"> = ref("cyrillic")
+const lang: Ref<langType> = ref("cyrillic")
 const showContent: Ref<string> = ref(props.cyrillic)
 
-function displayContent(la: "cyrillic" | "arabic" | "hapin") {
+function displayContent(la: langType) {
 	const { cyrillic, arabic, hapin } = props
 	if (la === "cyrillic") {
 		showContent.value = cyrillic
@@ -32,11 +33,11 @@ function displayContent(la: "cyrillic" | "arabic" | "hapin") {
 }
 
 if (!!preferLang) {
-	lang.value = preferLang as "cyrillic" | "arabic" | "hapin"
-	displayContent(preferLang as "cyrillic" | "arabic" | "hapin")
+	lang.value = preferLang as langType
+	displayContent(preferLang as langType)
 }
 
-function changeLang(la: "cyrillic" | "arabic" | "hapin") {
+function changeLang(la: langType) {
 	lang.value = la
 	localStorage.setItem("prefer-lang", la)
 	displayContent(la)
@@ -45,8 +46,6 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 
 <style lang="less">
 .hapin-box-inline {
-
-
 	ul {
 		list-style: none;
 		margin: 0;
@@ -102,7 +101,6 @@ function changeLang(la: "cyrillic" | "arabic" | "hapin") {
 	<span class="hapin-box-inline">
 		<ul>
 			<li v-for="[la, ll] in langs" @click="changeLang(la)" :title="`选择${ll}`">
-				<!-- TODO CSS注册色块选择 -->
 				<span :class="la === lang ? 'active' : ''"></span>
 			</li>
 		</ul>

@@ -16,6 +16,7 @@
     "vue": "^3.2.37"
   },
   "dependencies": {
-    "hapin-utils": "^2.2.0"
+    "@algolia/client-search": "^4.14.2",
+    "hapin-utils": "^3.2.0"
   }
 }
